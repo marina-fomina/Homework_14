@@ -2,11 +2,11 @@ import java.util.*;
 
 public class Recipe {
     private final String recipeName;
-    private Set<Product> products = new HashSet<>();
+    private HashMap<Product, Double> products = new HashMap<>();
 
     private final double totalCost;
 
-    public Recipe(String recipeName, Set<Product> products) {
+    public Recipe(String recipeName, HashMap<Product, Double> products) {
         if (recipeName == null || recipeName.isBlank() || products == null || products.size() == 0) {
             throw new NotEnoughData("Не все поля заполнены.");
         }
@@ -17,8 +17,8 @@ public class Recipe {
 
     public double countCostOfRecipe() {
         double sum = 0;
-        for (Product product : products) {
-            sum = sum + product.getPrice();
+        for (Map.Entry<Product, Double> entry : products.entrySet()) {
+            sum = sum + (entry.getKey().getPrice() / entry.getKey().getAmount() * entry.getValue());
         }
         return sum;
     }
@@ -26,8 +26,8 @@ public class Recipe {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Блюдо - " + getRecipeName()).append(". Стоимость приготовления - " + getTotalCost()).append(" рублей. Состав продуктов: ").append('\n');
-        for (Product product : this.products) {
-            stringBuilder.append(product).append('\n');
+        for (Map.Entry<Product, Double> entry : products.entrySet()) {
+            stringBuilder.append(entry.getKey().getProductName()).append('\n');
         }
         return stringBuilder.toString();
     }
@@ -36,7 +36,7 @@ public class Recipe {
         return recipeName;
     }
 
-    public Set<Product> getProducts() {
+    public HashMap<Product, Double> getProducts() {
         return products;
     }
 

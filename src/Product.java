@@ -47,7 +47,7 @@ public class Product {
         if (amount != null && amount > 0) {
             this.amount = amount;
         } else {
-            throw new NotEnoughData("Заполните карточку товара полностью!");
+            this.amount = 1.0;
         }
     }
 
